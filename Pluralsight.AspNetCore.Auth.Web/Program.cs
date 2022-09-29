@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ var users = new Dictionary<string, string> { { "chris", "password" } };
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
+builder.Services.AddMvc();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -22,6 +23,7 @@ builder.Services.AddAuthentication(options =>
 }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, option =>
 {
     option.LoginPath = "/auth/sign-in";
+    option.ReturnUrlParameter = "returnUrl";
 });
 
 
@@ -42,6 +44,9 @@ app.UseStaticFiles();
 
 app.UseAuthentication();
 
-app.UseMvc();
+app.UseAuthorization();
+
+app.MapControllerRoute(name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

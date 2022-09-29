@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http.Extensions
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -17,14 +18,18 @@
                     {
                         <li role="presentation"><a href="/userinformation">User Information</a></li>
                         <li role="presentation" class="active">
-                            <form method="post" asp-controller="Auth" asp-action="SignOut">
+                            <form method="post" asp-controller="Auth" asp-action="Logout">
                                 <button type="submit" class="btn btn-primary">Sign Out</button>
                             </form>
                         </li>
                     }
                     else
                     {
-                        <li role="presentation" class="active"><a asp-controller="Auth" asp-action="SignIn">Sign In</a></li>
+                        @if (!Context.Request.GetDisplayUrl().Contains(Url.Action(action: "SignIn", controller: "Auth") ?? ""))
+                        {
+                            <li role="presentation" class="active"><a asp-controller="Auth" asp-action="SignIn">Sign In</a></li>
+                        }
+
                     }
                 </ul>
             </nav>

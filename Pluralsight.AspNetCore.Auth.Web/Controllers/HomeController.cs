@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Pluralsight.AspNetCore.Auth.Web.Controllers
 {
+    [Route("[controller]")]
     public class HomeController : Controller
     {
-        [Route("")]
         public IActionResult Index()
         {
             return View();
