@@ -6,16 +6,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Pluralsight.AspNetCore.Auth.Web.Controllers
 {
-    [Microsoft.AspNetCore.Components.Route("auth")]
+    [Route("auth")]
     public class AuthController : Controller
     {
         [Route("sign-in")]
         public IActionResult SignIn()
         {
+            return View();
+        }
+        [Route("sign-in/{provider}")]
+        public IActionResult SignIn(string provider, string returnUrl=null)
+        {
             return Challenge(new AuthenticationProperties()
             {
-                RedirectUri = "/"
-            });
+                RedirectUri = returnUrl ?? "/"
+            }, provider);
         }
 
         [Route("sign-out")]

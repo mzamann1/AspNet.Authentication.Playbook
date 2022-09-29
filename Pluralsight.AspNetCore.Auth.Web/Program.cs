@@ -8,17 +8,18 @@ using Microsoft.Extensions.Hosting;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddMvc();
+builder.Services.AddMvc(options=>options.EnableEndpointRouting=true);
 
 builder.Services.AddAuthentication(option =>
 {
     option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    option.DefaultChallengeScheme = FacebookDefaults.AuthenticationScheme;
+    //option.DefaultChallengeScheme = FacebookDefaults.AuthenticationScheme; for external only challenge
+    option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-}).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, option =>
-    {
-
-    }).AddFacebook(fbOptions =>
+}).AddCookie(option =>
+{
+    option.LoginPath = "/auth/sign-in";
+}).AddFacebook(fbOptions =>
     {
         fbOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"]; //from secret manager
         fbOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"]; //from secret manager
