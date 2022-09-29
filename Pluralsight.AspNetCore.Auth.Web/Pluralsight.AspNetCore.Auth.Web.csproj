@@ -17,8 +17,4 @@
     <_ContentIncludedByDefault Remove="Views\Auth\AccessDenied.cshtml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\" />
-  </ItemGroup>
-
 </Project>

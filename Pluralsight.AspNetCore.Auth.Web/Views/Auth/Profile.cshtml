@@ -1,0 +1,16 @@
+﻿@model Pluralsight.AspNetCore.Auth.Web.Model.ProfileModel
+
+@if (!ViewContext.ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="form-validation"></div>
+}
+
+
+<form class="form-profile" asp-action="Profile" asp-route-returnUrl="@Context.Request.Query["returnUrl"]">
+    <h2>Please add te following details</h2>
+    <label class="sr-only">Display name</label>
+    <input type="text" class="form-control" placeholder="Display Name" asp-for="DisplayName" />
+    <label class="sr-only">E-mail</label>
+    <input type="text" class="form-control" placeholder="E-mail" asp-for="Email" />
+    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+</form>
