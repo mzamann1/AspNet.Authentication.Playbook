@@ -24,7 +24,7 @@ namespace Pluralsight.AspNetCore.Auth.Web.Controllers
         [Route("sign-in")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignIn([FromBody] SignInModel model, [FromServices] DummyUserService userService)
+        public async Task<IActionResult> SignIn(SignInModel model, [FromServices] IUserService userService, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
@@ -32,10 +32,29 @@ namespace Pluralsight.AspNetCore.Auth.Web.Controllers
                 if (await userService.ValidateCredentials(model.Username, model.Password, out user))
                 {
                     await SignInUser(model.Username);
-                    return RedirectToAction("Index", "Home");
+
+                    if (returnUrl != null)
+                    {
+                        if (Url.IsLocalUrl(returnUrl))
+                            return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             return View(model);
+        }
+
+        [HttpPost]
+        [Route("sign-out")]
+        public async Task<IActionResult> SignOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("index", "Home");
+
         }
 
         public async Task SignInUser(string username)
