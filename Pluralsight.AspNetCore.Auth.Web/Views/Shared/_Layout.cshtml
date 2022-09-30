@@ -15,16 +15,16 @@
                 <ul class="nav nav-pills pull-right">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li role="presentation"><a href="/userinformation">User Information</a></li>
+                        <li role="presentation"><a asp-controller="Home" asp-action="UserInformation">User Information</a></li>
                         <li role="presentation" class="active">
                             <form method="post">
-                                <button type="submit" class="btn btn-primary">Sign Out</button>
+                                <button type="submit" class="btn btn-primary" asp-controller="Auth" asp-action="Logout">Sign Out</button>
                             </form>
                         </li>
                     }
                     else
                     {
-                        <li role="presentation" class="active"><a href="#">Sign In</a></li>
+                        <li role="presentation" class="active"><a asp-controller="Auth" asp-action="SignIn">Sign In</a></li>
                     }
                 </ul>
             </nav>

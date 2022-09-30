@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Pluralsight.AspNetCore.Auth.Web.Controllers
 {
+    [Route("home")]
     public class HomeController : Controller
     {
         [Route("")]
