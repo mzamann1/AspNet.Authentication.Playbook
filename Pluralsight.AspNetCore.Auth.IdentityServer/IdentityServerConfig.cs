@@ -19,6 +19,22 @@ namespace Pluralsight.AspNetCore.Auth.IdentityServer
             };
         }
 
+        public static IEnumerable<ApiResource> GetApiResources() => new List<ApiResource>()
+        {
+            new ApiResource()
+            {
+                Name = "DemoApi",
+                DisplayName = "Demo Api Resource",
+                Scopes = new []{ "DemoApiScope" }
+
+            }
+        };
+
+        public static IEnumerable<ApiScope> GetApiScopes() => new List<ApiScope>()
+        {
+            new ApiScope("DemoApiScope")
+        };
+
         public static IEnumerable<Client> GetClients()
         {
             return new List<Client> {
@@ -33,8 +49,22 @@ namespace Pluralsight.AspNetCore.Auth.IdentityServer
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile
                     }
+                },
+                new Client {
+                    ClientId = "WebApi",
+                    ClientName = "WebApi Demo Client",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets = new []{new Secret("MySecret".Sha256())},
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "DemoApiScope",
+                        "DemoApi"
+                    }
                 }
             };
+
         }
 
         public static List<TestUser> GetUsers()

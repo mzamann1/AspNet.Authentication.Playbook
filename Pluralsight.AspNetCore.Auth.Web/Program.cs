@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,20 @@ builder.Services.AddAuthentication(options =>
         options.TokenValidationParameters.NameClaimType = "name";
     })
     .AddCookie();
+
+builder.Services.AddHttpClient("WebApiClient", options =>
+{
+    options.BaseAddress = new Uri("https://localhost:44313");
+    options.DefaultRequestHeaders.Clear();
+    options.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+});
+
+
+builder.Services.AddHttpClient("IDSClient", options =>
+{
+    options.BaseAddress = new Uri("https://localhost:44338");
+    options.DefaultRequestHeaders.Clear();
+});
 
 var app = builder.Build();
 
