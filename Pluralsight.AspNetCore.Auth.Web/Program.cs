@@ -20,6 +20,8 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
-app.UseMvcWithDefaultRoute();
+app.UseAuthentication();
+
+app.MapDefaultControllerRoute();
 
 app.Run();
